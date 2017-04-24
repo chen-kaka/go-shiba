@@ -13,7 +13,7 @@ func FindUser(service *Service, userID string) (*models.User, error) {
 	
 	var queryUser models.User
 	callbackFunc := func(collection *mgo.Collection) error {
-		queryMap := bson.M{"station_id": userID}
+		queryMap := bson.M{"_id": bson.ObjectIdHex(userID)}
 		
 		log.Trace(service.UserID, "Find", "MGO : db.user.find(%s).limit(1)", mongodb.ToString(queryMap))
 		return collection.Find(queryMap).One(&queryUser)

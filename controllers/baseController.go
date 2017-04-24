@@ -26,6 +26,11 @@ type (
 		beego.Controller
 		services.Service
 	}
+	
+	CommonResp struct {
+		Code int `json:"code"`
+		Msg string `json:"msg"`
+	}
 )
 
 //** INTERCEPT FUNCTIONS
@@ -127,7 +132,7 @@ func (baseController *BaseController) ServeError(err error) {
 		Error string `json:"Error"`
 	}{err.Error()}
 	baseController.Ctx.Output.SetStatus(500)
-	// // baseController.ServeJson()()
+	baseController.ServeJSON()
 }
 
 // ServeValidationErrors prepares and serves a validation exception.
@@ -136,7 +141,7 @@ func (baseController *BaseController) ServeValidationErrors(Errors []string) {
 		Errors []string `json:"Errors"`
 	}{Errors}
 	baseController.Ctx.Output.SetStatus(409)
-	// baseController.ServeJson()
+	baseController.ServeJSON()
 }
 
 //** CATCHING PANICS
@@ -168,5 +173,16 @@ func (baseController *BaseController) AjaxResponse(resultCode int, resultString 
 	}
 
 	baseController.Data["json"] = response
-	// baseController.ServeJson()
+	baseController.ServeJSON()
+}
+
+func (BaseController *BaseController) retJsonObject(base *BaseController, data interface{})  {
+	base.Data["json"] = &data
+	base.ServeJSON()
+}
+
+func (BaseController *BaseController) retError(base *BaseController, retCode int, retMsg string) {
+	beego.Error("error return， code: ", retCode, ", msg: ", retMsg)
+	resp := CommonResp{ Code: retCode, Msg: retMsg }
+	BaseController.retJsonObject(base, resp)
 }

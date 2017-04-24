@@ -4,12 +4,23 @@ import (
 	"go-shiba/services"
 )
 
-type UserController struct {
-	BaseController
-}
+type(
+	UserController struct {
+		BaseController
+	}
+)
 
+/**
+http://localhost:9000/user?id=58fc5435ce01cec8e7f6ec40
+ */
 func (c *UserController) Get() {
-	userInfo, _ := services.FindUser(&c.Service, "58fc5435ce01cec8e7f6ec40")
+	userId := c.GetString("id")
+	if userId == "" {
+		c.retError(&c.BaseController, 1, "param error.")
+		return
+	}
 	
-	c.Data["Website"] = userInfo
+	userInfo, _ := services.FindUser(&c.Service, userId)
+	
+	c.retJsonObject(&c.BaseController, userInfo)
 }

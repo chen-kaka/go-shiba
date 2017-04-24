@@ -26,3 +26,5 @@ go get github.com/astaxie/beego
 go get gopkg.in/mgo.v2
 ### 安装 mgo bson
 go get gopkg.in/mgo.v2/bson
+### 安装 beego http 模块
+go get github.com/astaxie/beego/httplib

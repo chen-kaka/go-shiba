@@ -3,6 +3,9 @@ package exception
 const (
 	// All kinds of error code definitions
 	
+	//success
+	SUCCESS = 0
+	
 	// client error code
 	PARAM_ERROR = 10001
 	PARAM_MISSING = 10002

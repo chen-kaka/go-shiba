@@ -7,7 +7,7 @@ import (
 
 type(
 	UserController struct {
-		BaseController
+		MongoController
 	}
 )
 
